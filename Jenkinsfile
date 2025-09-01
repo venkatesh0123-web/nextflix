@@ -19,18 +19,6 @@ pipeline {
             }
         }
 
-        stage('Install Dependencies & Build') {
-            steps {
-                dir("${WORK_DIR}") {
-                    sh '''
-                        export NODE_OPTIONS=--openssl-legacy-provider
-                        npm install
-                        npm run build
-                    '''
-                }
-            }
-        }
-
         stage('Build Docker Image') {
             steps {
                 dir("${WORK_DIR}") {
