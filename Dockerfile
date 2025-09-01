@@ -15,6 +15,10 @@ FROM node:18-alpine AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
+
+# Fix for OpenSSL error with Node 17/18
+ENV NODE_OPTIONS=--openssl-legacy-provider
+
 RUN npm run build
 
 # Production image
@@ -22,9 +26,10 @@ FROM node:18-alpine AS runner
 WORKDIR /app
 
 ENV NODE_ENV=production
+ENV NODE_OPTIONS=--openssl-legacy-provider
 ENV PORT=3000
 
-# Copy only the needed files
+# Copy only needed files
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/node_modules ./node_modules
@@ -33,5 +38,4 @@ COPY --from=builder /app/next.config.js ./next.config.js
 
 EXPOSE 3000
 
-# Start Next.js in production mode
 CMD ["npm", "start"]
