@@ -6,7 +6,8 @@ pipeline {
         IMAGE_NAME = "nextflix-app"
         IMAGE_TAG  = "latest"
         CONTAINER_NAME = "nextflix-container"
-        PORT = "3000"   // Next.js default port
+        PORT = "3000"
+        NODE_OPTIONS = "--openssl-legacy-provider"
     }
 
     stages {
@@ -22,6 +23,7 @@ pipeline {
             steps {
                 dir("${WORK_DIR}") {
                     sh '''
+                        export NODE_OPTIONS=--openssl-legacy-provider
                         npm install
                         npm run build
                     '''
