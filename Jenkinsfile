@@ -19,6 +19,14 @@ pipeline {
             }
         }
 
+        stage('Build WAR') {
+            steps {
+                dir("${WORK_DIR}") {
+                    sh 'mvn clean package'   // Make sure Maven is installed on the Jenkins node
+                }
+            }
+        }
+
         stage('Build Docker Image') {
             steps {
                 dir("${WORK_DIR}") {
@@ -35,7 +43,7 @@ pipeline {
                 dir("${WORK_DIR}") {
                     sh '''
                         docker rm -f ${CONTAINER_NAME} || true
-                        docker run -d --name ${CONTAINER_NAME} -p 3000:3000 ${IMAGE_NAME}:${IMAGE_TAG}
+                        docker run -d --name ${CONTAINER_NAME} -p ${PORT}:${PORT} ${IMAGE_NAME}:${IMAGE_TAG}
                     '''
                 }
             }
