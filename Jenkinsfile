@@ -3,6 +3,7 @@ pipeline {
 
     environment {
         WORK_DIR = "/var/lib/jenkins/workspace/nextflix"
+        APP_DIR = "${WORK_DIR}/nextflix-app"    // Adjust this based on your project structure
         IMAGE_NAME = "nextflix-app"
         IMAGE_TAG  = "latest"
         CONTAINER_NAME = "nextflix-container"
@@ -21,8 +22,8 @@ pipeline {
 
         stage('Build WAR') {
             steps {
-                dir("${WORK_DIR}") {
-                    sh 'mvn clean package'   // Make sure Maven is installed on the Jenkins node
+                dir("${APP_DIR}") {
+                    sh 'mvn clean package'
                 }
             }
         }
