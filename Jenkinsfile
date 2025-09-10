@@ -8,7 +8,7 @@ pipeline {
         CONTAINER_NAME = "nextflix-container"
         PORT           = "3000"
         NODE_OPTIONS   = "--openssl-legacy-provider"
-        DOCKERHUB_CREDENTIALS_ID = 'dockerhub-credentials'  // Add your Docker Hub credentials in Jenkins
+        DOCKERHUB_CREDENTIALS_ID = 'dockerhub-credentials'
     }
 
     stages {
@@ -16,6 +16,14 @@ pipeline {
             steps {
                 dir("${WORK_DIR}") {
                     git branch: 'main', url: 'https://github.com/SukeshKaicharla/nextflix.git'
+                }
+            }
+        }
+
+        stage('Build App with Maven') {
+            steps {
+                dir("${WORK_DIR}") {
+                    sh 'mvn clean package'
                 }
             }
         }
