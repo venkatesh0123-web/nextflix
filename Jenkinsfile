@@ -15,7 +15,7 @@ pipeline {
         stage('Checkout Code') {
             steps {
                 dir("${WORK_DIR}") {
-                    git branch: 'main', url: 'https://github.com/SukeshKaicharla/nextflix.git'
+                    git branch: 'main', url: 'https://github.com/venkatesh0123-web/nextflix.git'
                 }
             }
         }
